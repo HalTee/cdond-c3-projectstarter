@@ -76,7 +76,7 @@ jobs:
     steps:
       - checkout # Checkout code from git
       - restore_cache: 
-          paths: [frontend/node_modules]# Restore from cache
+          paths: [frontend/node_modules] # Restore from cache
       - run:
           name: Run frontend test
           command: |
