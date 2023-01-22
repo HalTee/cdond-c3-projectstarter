@@ -114,7 +114,7 @@ jobs:
     steps:
       - checkout # Checkout code from git
       - restore_cache: 
-          keys: [frontend-scan] # Restore from cache
+          keys: [frontend-test] # Restore from cache
       - run:
           name: Run frontend Scan
           command: |
@@ -126,7 +126,7 @@ jobs:
         # Your job code here
       - save_cache:
           paths: [frontend/node_modules]
-          key: frontend-scan
+          key: frontend-test
 
   scan-backend:
     docker:
@@ -135,7 +135,7 @@ jobs:
     steps:
       - checkout # Checkout code from git
       - restore_cache: 
-          keys: [backend-scan] # Restore from cache
+          keys: [backend-test] # Restore from cache
       - run:
           name: Run backend Scan
           command: |
@@ -147,7 +147,7 @@ jobs:
         # Your job code here
       - save_cache:
           paths: [frontend/node_modules]
-          key: backend-scan
+          key: backend-test
 
 #   deploy-infrastructure:
 #     docker:
