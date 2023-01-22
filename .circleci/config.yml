@@ -76,7 +76,7 @@ jobs:
     steps:
       - checkout # Checkout code from git
       - restore_cache: 
-          keys: [frontend-test] # Restore from cache
+          keys: [frontend-build] # Restore from cache
       - run:
           name: Run frontend test
           command: |
@@ -86,8 +86,8 @@ jobs:
             npm run test     
         # Your job code here
       - save_cache:
-        paths: [frontend/node_modules]
-        key: frontend-test
+          paths: [frontend/node_modules]
+          key: frontend-test
 
   test-backend:
     docker:
@@ -95,7 +95,7 @@ jobs:
     steps:
       - checkout # Checkout code from git
       - restore_cache: # Restore from cache
-          keys: [backend-test]
+          keys: [backend-build]
       - run:
           name: Run backend test
           command: |
