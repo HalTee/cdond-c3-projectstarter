@@ -76,7 +76,7 @@ jobs:
     steps:
       - checkout # Checkout code from git
       - restore_cache: 
-          keys: [frontend-build] # Restore from cache
+          keys: [frontend-test] # Restore from cache
       - run:
           name: Run frontend test
           command: |
@@ -95,7 +95,7 @@ jobs:
     steps:
       - checkout # Checkout code from git
       - restore_cache: # Restore from cache
-          keys: [backend-build]
+          keys: [backend-test]
       - run:
           name: Run backend test
           command: |
