@@ -16,24 +16,24 @@ commands:
             sudo apt-add-repository --yes --update ppa:ansible/ansible 
             sudo apt install ansible -y
 
-  install_awscli:
-    description: "code to install awscli"
-    steps:
-      - run:
-          name: Install AWS CLI
-          command: |
-            curl "https://awscli.amazonaws.com/amscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install
+  # install_awscli:
+  #   description: "code to install awscli"
+  #   steps:
+  #     - run:
+  #         name: Install AWS CLI
+  #         command: |
+  #           curl "https://awscli.amazonaws.com/amscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  #           unzip awscliv2.zip
+  #           sudo ./aws/install
 
-    install_nodejs:
-      description: Install Node.js 13
-      steps:
-        - run:
-            name: Install Node. js 13
-            command: |
-              curl-fsSl https://deb.nodesource.com/setup_13.x | sudo -E bash -
-              sudo apt install -y nodejs
+  #   install_nodejs:
+  #     description: Install Node.js 13
+  #     steps:
+  #       - run:
+  #           name: Install Node. js 13
+  #           command: |
+  #             curl-fsSl https://deb.nodesource.com/setup_13.x | sudo -E bash -
+  #             sudo apt install -y nodejs
 
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
