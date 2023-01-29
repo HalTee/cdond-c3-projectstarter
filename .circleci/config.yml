@@ -5,7 +5,7 @@ orbs:
 
 commands:
 
-  install ansible:
+  install_ansible:
     description: "code to install ansible"
     steps:
       - run:
@@ -29,24 +29,25 @@ commands:
             aws cloudformation delete-stack --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} # Your code here
             
 
-  # revert-migrations:
-  #   description: Revert the last migration if successfully run in the current workflow.
-  #   parameters:
-  #     # Add parameter here     
-  #   steps:
-  #     - run:
-  #         name: Revert migrations
-  #         # Add when this will run
-  #         command: |
-  #           # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-  #           SUCCESS = 1
-  #           if(( $SUCCESS==1 )); 
-  #           then
-  #           #  cd ~/project/backend
-  #           #  npm install
-  #           #  Add revert code here. You can find this in the Getting Started section.
-  #             exit 1
-  #           fi
+  revert-migrations:
+    description: Revert the last migration if successfully run in the current workflow.
+    parameters:
+      # Add parameter here     
+    steps:
+      - run:
+          name: Revert migrations
+          when: on_fail # Add when this will run
+          command: |
+            # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
+            SUCCESS = 1
+            if(( $SUCCESS==1 )); 
+            then
+            #  cd ~/project/backend
+            #  npm install
+            #  Add revert code here. You can find this in the Getting Started section.
+              cd backend
+              npm run migrations:revert
+            fi
             
 jobs:
   build-frontend:
@@ -213,14 +214,14 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - - image: cimg/base:stable # Docker image here that supports Ansible
+      - image: cimg/base:stable # Docker image here that supports Ansible
     steps:
       - checkout # Checkout code from git
       - add_ssh_keys:
               fingerprints: ["3b:05:be:10:d3:1c:0f:88:07:02:23:4f:cd:b8:3c:6c"] # Add ssh keys with fingerprint
       - attach_workspace:
           at: ~/ # attach workspace
-      - install ansible   
+      - install_ansible   
       # - run:
       #     name: Install dependencies
       #     command: |
