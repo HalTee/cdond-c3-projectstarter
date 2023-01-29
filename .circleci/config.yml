@@ -4,6 +4,18 @@ orbs:
   slack: circleci/slack@4.12.1
 
 commands:
+
+  install ansible:
+    description: "code to install ansible"
+    steps:
+      - run:
+          name: Install Ansible
+          command: |
+            sudo apt update -y 
+            sudo apt install -y software-properties-common 
+            sudo apt-add-repository --yes --update ppa:ansible/ansible 
+            sudo pip install ansible -y
+
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
@@ -13,7 +25,8 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7}# Your code here
+            aws cloudformation delete-stack --stack-name udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7} #
+            aws cloudformation delete-stack --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} # Your code here
             
 
   # revert-migrations:
@@ -198,41 +211,51 @@ jobs:
             - project/.circleci/ansible/inventory.txt
       # Here's where you will add some code to rollback on failure      
 
-#   configure-infrastructure:
-#     docker:
-#       # Docker image here that supports Ansible
-#     steps:
-#       # Checkout code from git
-#       # Add ssh keys with fingerprint
-#       # attach workspace
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # Your code here
-#             exit 1
-#       - run:
-#           name: Configure server
-#           command: |
-#             # Your code here
-#             exit 1
-#       # Here's where you will add some code to rollback on failure      
+  configure-infrastructure:
+    docker:
+      - - image: cimg/base:stable # Docker image here that supports Ansible
+    steps:
+      - checkout # Checkout code from git
+      - add_ssh_keys:
+              fingerprints: ["3b:05:be:10:d3:1c:0f:88:07:02:23:4f:cd:b8:3c:6c"] # Add ssh keys with fingerprint
+      - attach_workspace:
+          at: ~/ # attach workspace
+      - install ansible   
+      # - run:
+      #     name: Install dependencies
+      #     command: |
+      #       # Your code here
+      #       exit 1
+      - run:
+          name: Configure server
+          command: |
+            cd .circleci/ansible 
+            cat inventory.txt 
+            ansible-playbook -i  inventory.txt configure-server.yml # Your code here
+            
+      - destroy environment # Here's where you will add some code to rollback on failure      
 
-#   run-migrations:
-#     docker:
-#       # Docker image here that supports NodeJS
-#     steps:
-#       # Checkout code from git
-#       - run:
-#           name: Run migrations
-#           command: |
-#             # Your code here
-#             exit 1
-#       - run:
-#           name: Send migration results to memstash
-#           command: |
-#             # Your code here
-#             exit 1
-#      # Here's where you will add some code to rollback on failure      
+  run-migrations:
+    docker:
+      - image: circleci/node:13.8.0 # Docker image here that supports NodeJS
+    steps:
+      - checkout # Checkout code from git
+      - run:
+          name: Run migrations
+          command: |
+            cd backend 
+            npm install 
+            npm run migration > migrations_dump.txt # Your code here
+            exit 1
+      - run:
+          name: Send migration results to kvdb.io
+          command: |
+            # Your code here
+            if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
+            then
+              curl  https://kvdb.io/Shy2ZnKK3VBARpXDad9D8L/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1' 
+            fi
+      - revert-migrations # Here's where you will add some code to rollback on failure      
 
 #   deploy-frontend:
 #     docker:

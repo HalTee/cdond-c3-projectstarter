@@ -1,0 +1,34 @@
+---
+- name: "update apt packages."
+  become: yes
+  apt:
+    update_cache: yes
+
+- name: "upgrade packages"
+  become: yes
+  apt:
+    upgrade: yes
+
+- name: "Add Node.js from source"
+  become: yes
+  shell: |
+    curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash
+
+- name: "install dependencies."
+  become: yes
+  apt:
+    name: ["nodejs", "npm"]
+    state: latest
+    update_cache: yes
+
+- name: "install pm2 Globally"
+  become: yes
+  npm:
+    name: pm2
+    global: yes
+
+- name: "move env variables to /etc/profile.d/"
+  become: true 
+  copy:
+    src: myenv.sh
+    dest: /etc/profile.d/
