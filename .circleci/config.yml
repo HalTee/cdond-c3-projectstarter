@@ -5,6 +5,25 @@ orbs:
 
 commands:
 
+  install_nodejs:
+    description: Install Node.js 13
+    steps:
+      - run:
+          name: Install Node. js 13
+          command: |
+            curl-fsSl https://deb.nodesource.com/setup_13.x | sudo -E bash -
+            sudo apt install -y nodejs
+
+  install_awscli:
+    description: "code to install awscli"
+    steps:
+      - run:
+          name: Install AWS CLI
+          command: |
+            curl "https://awscli.amazonaws.com/amscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
+
   install_ansible:
     description: "code to install ansible"
     steps:
@@ -16,24 +35,6 @@ commands:
             sudo apt-add-repository --yes --update ppa:ansible/ansible 
             sudo apt install ansible -y
 
-  # install_awscli:
-  #   description: "code to install awscli"
-  #   steps:
-  #     - run:
-  #         name: Install AWS CLI
-  #         command: |
-  #           curl "https://awscli.amazonaws.com/amscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-  #           unzip awscliv2.zip
-  #           sudo ./aws/install
-
-  #   install_nodejs:
-  #     description: Install Node.js 13
-  #     steps:
-  #       - run:
-  #           name: Install Node. js 13
-  #           command: |
-  #             curl-fsSl https://deb.nodesource.com/setup_13.x | sudo -E bash -
-  #             sudo apt install -y nodejs
 
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
@@ -286,9 +287,9 @@ jobs:
               fingerprints: ["3b:05:be:10:d3:1c:0f:88:07:02:23:4f:cd:b8:3c:6c"] # Add ssh keys with fingerprint
       - attach_workspace:
           at: ~/ # attach workspace
-      - install_ansible
+      - install_nodejs   
       - install_awscli
-      - install_nodejs     
+      - install_ansible 
       # - run:
       #     name: Install dependencies
       #     command: |
@@ -316,26 +317,47 @@ jobs:
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive # your code here
-      - destroy_environment
+      - destroy-environment
       - revert-migrations
       # Here's where you will add some code to rollback on failure      
                     
-  # deploy-backend:
-  #   docker:
-  #     # Docker image here that supports Ansible
-  #   steps:
-  #     # Checkout code from git
-  #     # Add ssh keys with fingerprint
-  #     # attach workspace
-  #     - run:
-  #         name: Install dependencies
-  #         command: |
-  #           # your code here
-  #     - run:
-  #         name: Deploy backend
-  #         command: |
-  #           # your code here
-  #     # Here's where you will add some code to rollback on failure  
+  deploy-backend:
+    docker:
+      - image: cimg/base:stable # Docker image here that supports AWS CLI
+    steps:
+      - checkout # Checkout code from git
+      - add_ssh_keys:
+              fingerprints: ["3b:05:be:10:d3:1c:0f:88:07:02:23:4f:cd:b8:3c:6c"] # Add ssh keys with fingerprint
+      - attach_workspace:
+          at: ~/ # attach workspace
+      - install_nodejs   
+      - install_awscli
+      - install_ansible
+
+  
+      - run:
+          name: Deploy backend
+          command: |
+            cd backend
+
+            npm i
+            npm run build
+            cd ..
+
+            # Zip the directory
+            cd .circleci/ansible
+            mkdir files
+            cd files
+            tar -C ../../../backend -czvf artifact.tar.gz .
+            cd ../
+
+            echo "Contents  of the inventory.txt file is -------"
+            cat inventory.txt
+            ansible-playbook -i inventory.txt deploy-backend.yml # your code here
+
+      - destroy-environment
+      - revert-migrations
+      # Here's where you will add some code to rollback on failure  
 
 #   smoke-test:
 #     docker:
@@ -417,10 +439,10 @@ workflows:
           requires: [deploy-infrastructure]
       - run-migrations:
           requires: [configure-infrastructure]
-      # - deploy-frontend:
-      #     requires: [run-migrations]
-      # - deploy-backend:
-      #     requires: [run-migrations]
+      - deploy-frontend:
+          requires: [run-migrations]
+      - deploy-backend:
+          requires: [run-migrations]
       # - smoke-test:
       #     requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
