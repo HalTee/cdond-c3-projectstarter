@@ -267,7 +267,7 @@ jobs:
             cd backend 
             npm install 
             npm run migration > migrations_dump.txt # Your code here
-            exit 1
+            
       - run:
           name: Send migration results to kvdb.io
           command: |
