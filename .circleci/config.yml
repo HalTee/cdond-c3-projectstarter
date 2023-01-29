@@ -16,6 +16,7 @@ commands:
             sudo apt-add-repository --yes --update ppa:ansible/ansible 
             sudo apt install ansible -y
 
+
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
@@ -258,48 +259,48 @@ jobs:
             fi
       - revert-migrations # Here's where you will add some code to rollback on failure      
 
-  deploy-frontend:
-    docker:
-      - image: cimg/base:stable # Docker image here that supports AWS CLI
-    steps:
-      - checkout # Checkout code from git
-      - add_ssh_keys:
-              fingerprints: ["3b:05:be:10:d3:1c:0f:88:07:02:23:4f:cd:b8:3c:6c"] # Add ssh keys with fingerprint
-      - attach_workspace:
-          at: ~/ # attach workspace
-      - install_ansible       # Checkout code from git
-      - run:
-          name: Install dependencies
-          command: |
-            # your code here
-      - run:
-          name: Get backend url
-          command: |
-            # your code here
-            export API_URL="http://${BACKEND_IP}:3030"
-            echo "${API_URL}"
-      - run:
-          name: Deploy frontend objects
-          command: |
-            # your code here
-      # Here's where you will add some code to rollback on failure      
+  # deploy-frontend:
+  #   docker:
+  #     - image: cimg/base:stable # Docker image here that supports AWS CLI
+  #   steps:
+  #     - checkout # Checkout code from git
+  #     - add_ssh_keys:
+  #             fingerprints: ["3b:05:be:10:d3:1c:0f:88:07:02:23:4f:cd:b8:3c:6c"] # Add ssh keys with fingerprint
+  #     - attach_workspace:
+  #         at: ~/ # attach workspace
+  #     - install_ansible       # Checkout code from git
+  #     - run:
+  #         name: Install dependencies
+  #         command: |
+  #           # your code here
+  #     - run:
+  #         name: Get backend url
+  #         command: |
+  #           # your code here
+  #           export API_URL="http://${BACKEND_IP}:3030"
+  #           echo "${API_URL}"
+  #     - run:
+  #         name: Deploy frontend objects
+  #         command: |
+  #           # your code here
+  #     # Here's where you will add some code to rollback on failure      
                     
-  deploy-backend:
-    docker:
-      # Docker image here that supports Ansible
-    steps:
-      # Checkout code from git
-      # Add ssh keys with fingerprint
-      # attach workspace
-      - run:
-          name: Install dependencies
-          command: |
-            # your code here
-      - run:
-          name: Deploy backend
-          command: |
-            # your code here
-      # Here's where you will add some code to rollback on failure  
+  # deploy-backend:
+  #   docker:
+  #     # Docker image here that supports Ansible
+  #   steps:
+  #     # Checkout code from git
+  #     # Add ssh keys with fingerprint
+  #     # attach workspace
+  #     - run:
+  #         name: Install dependencies
+  #         command: |
+  #           # your code here
+  #     - run:
+  #         name: Deploy backend
+  #         command: |
+  #           # your code here
+  #     # Here's where you will add some code to rollback on failure  
 
 #   smoke-test:
 #     docker:
