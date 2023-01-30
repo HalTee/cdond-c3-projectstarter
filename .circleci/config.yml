@@ -58,15 +58,14 @@ commands:
           name: Revert migrations
           when: on_fail # Add when this will run
           command: |
+            SUCCESS=$(curl --insecure  https://kvdb.io/Shy2ZnKK3VBARpXDad9D8L/migration_${CIRCLE_WORKFLOW_ID:0:7}
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            SUCCESS = 1
             if(( $SUCCESS==1 )); 
             then
+            #  Add revert code here. You can find this in the Getting Started section.
               cd ~/project/backend
               npm install
-            #  Add revert code here. You can find this in the Getting Started section.
-              cd backend
-              npm run migrations:revert
+              npm run migration:revert
             fi
             
 jobs:
@@ -364,18 +363,18 @@ jobs:
       - checkout # Checkout code from git
       - install_nodejs   
       - install_awscli
-      - run:
-          name: Install dependencies
-          command: |
-            # your code here
-      - run:
-          name: Get backend url
-          command: |
-            # your code here
+      # - run:
+      #     name: Install dependencies
+      #     command: |
+      #       # your code here
+      # - run:
+      #     name: Get backend url
+      #     command: |
+      #       # your code here
       - run:
           name: Backend smoke test.
           command: |
-            export BACKEND_IP=$(aws ec2 describe-instances \
+            BACKEND_IP=$(aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
             --output text 
@@ -403,7 +402,7 @@ jobs:
             else
               return 1
             fi # your code here
-      - destroy-environment
+
       - revert-migrations # Here's where you will add some code to rollback on failure  
 
   cloudfront-update:
@@ -412,7 +411,7 @@ jobs:
     steps:
       - checkout # Checkout code from git
       - run:
-          name: Install dep/save old workflow tid to kvdb.io
+          name: Install dep/save old workflow id to kvdb.io
           command: |
             # Fetch the Old workflow ID
             export OldWorkflowID=$(aws cloudformation \
