@@ -241,6 +241,7 @@ jobs:
       - attach_workspace:
           at: ~/ # attach workspace
       - install_ansible   
+      - install_awscli
       # - run:
       #     name: Install dependencies
       #     command: |
