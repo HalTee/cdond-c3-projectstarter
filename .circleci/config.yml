@@ -405,6 +405,7 @@ jobs:
 
       - revert-migrations # Here's where you will add some code to rollback on failure  
 
+
   cloudfront-update:
     docker:
       - image: amazon/aws-cli  # Docker image here that supports AWS CLI
