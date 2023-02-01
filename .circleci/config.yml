@@ -360,7 +360,7 @@ jobs:
 
   smoke-test:
     docker:
-      - image: cimg/base:stable # Lightweight Docker image 
+      - image: circleci/node:13.8.0 # Lightweight Docker image 
     steps:
       - checkout # Checkout code from git
       - install_nodejs   
