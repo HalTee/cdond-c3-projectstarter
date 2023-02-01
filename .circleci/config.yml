@@ -237,7 +237,7 @@ jobs:
     steps:
       - checkout # Checkout code from git
       - add_ssh_keys:
-              fingerprints: ["3b:05:be:10:d3:1c:0f:88:07:02:23:4f:cd:b8:3c:6c"] # Add ssh keys with fingerprint
+              fingerprints: ["ae:bc:0c:4f:88:e8:0c:60:95:d6:5a:0f:73:e7:27:da"] # Add ssh keys with fingerprint
       - attach_workspace:
           at: ~/ # attach workspace
       - install_ansible   
@@ -284,7 +284,7 @@ jobs:
     steps:
       - checkout # Checkout code from git
       - add_ssh_keys:
-              fingerprints: ["3b:05:be:10:d3:1c:0f:88:07:02:23:4f:cd:b8:3c:6c"] # Add ssh keys with fingerprint
+              fingerprints: ["ae:bc:0c:4f:88:e8:0c:60:95:d6:5a:0f:73:e7:27:da"] # Add ssh keys with fingerprint
       - attach_workspace:
           at: ~/ # attach workspace
       - install_nodejs   
@@ -325,7 +325,7 @@ jobs:
     steps:
       - checkout # Checkout code from git
       - add_ssh_keys:
-              fingerprints: ["3b:05:be:10:d3:1c:0f:88:07:02:23:4f:cd:b8:3c:6c"] # Add ssh keys with fingerprint
+              fingerprints: ["ae:bc:0c:4f:88:e8:0c:60:95:d6:5a:0f:73:e7:27:da"] # Add ssh keys with fingerprint
       - attach_workspace:
           at: ~/ # attach workspace
       - install_nodejs   
@@ -403,7 +403,7 @@ jobs:
             else
               return 1
             fi # your code here
-
+      - destroy-environment
       - revert-migrations # Here's where you will add some code to rollback on failure  
 
 
