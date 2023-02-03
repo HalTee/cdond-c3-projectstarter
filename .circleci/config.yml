@@ -400,12 +400,12 @@ jobs:
             if curl -s ${URL} | grep "Welcome"
             then
                 # Change this to 0 after the job fails
-              return 1
+              exit 0
             else
-              return 1
+              exit 1
             fi # your code here
-      # - destroy-environment
-      # - revert-migrations # Here's where you will add some code to rollback on failure  
+      - destroy-environment
+      - revert-migrations # Here's where you will add some code to rollback on failure  
 
 
   cloudfront-update:
