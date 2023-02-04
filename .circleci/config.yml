@@ -61,7 +61,7 @@ commands:
           command: |
             SUCCESS=$(curl --insecure  https://kvdb.io/Shy2ZnKK3VBARpXDad9D8L/migration_${CIRCLE_WORKFLOW_ID:0:7}
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            if(( $SUCCESS==1 )); 
+            if (( $SUCCESS == 1 )); 
             then
             #  Add revert code here. You can find this in the Getting Started section.
               cd ~/project/backend
@@ -400,7 +400,7 @@ jobs:
             if curl -s ${URL} | grep "Welcome"
             then
                 # Change this to 0 after the job fails
-              exit 0
+              exit 1
             else
               exit 1
             fi # your code here
@@ -496,5 +496,5 @@ workflows:
           requires: [deploy-backend, deploy-frontend]
       - cloudfront-update:
           requires: [smoke-test]
-      # - cleanup:
-      #     requires: [cloudfront-update]
+      - cleanup:
+          requires: [cloudfront-update]
