@@ -429,8 +429,9 @@ jobs:
           command: |
             aws cloudformation deploy \
             --template-file .circleci/files/cloudfront.yml \
+            --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
             --stack-name InitialStack
-            --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"  # your code here
+            # your code here
       - destroy-environment
       - revert-migrations # Here's where you will add some code to rollback on failure  
 
