@@ -36,4 +36,5 @@
     - TYPEORM_MIGRATIONS: "{{ lookup('env', 'TYPEORM_MIGRATIONS')}}"
     - TYPEORM_MIGRATIONS_DIR: "{{ lookup('env', 'TYPEORM_MIGRATIONS_DIR')}}"
   roles:
-    - configure-server # Your code here
+    - configure-server
+    - configure-prometheus-node-exporter # Your code here
