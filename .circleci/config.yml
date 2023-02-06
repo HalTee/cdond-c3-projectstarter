@@ -387,7 +387,7 @@ jobs:
             echo "${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
             then
-                exit 1
+                exit 0
             else
                 exit 1
             fi
@@ -449,7 +449,7 @@ jobs:
                   --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
               echo Stack names: "${STACKS[@]}"          
             
-              export OldWorkflowID=$(curl --insecure  https://kvdb.io/Shy2ZnKK3VBARpXDad9D8L/old_workflow_id)
+              export OldWorkflowID=$(curl --insecure  https://kvdb.io/old_workflow_id)
               echo Old Workflow ID: $OldWorkflowID
               if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
               then
