@@ -1,18 +1,15 @@
-We are archiving this repository because we do not want learners to push personal development to the current repository. If you have any issues or suggestions to make, feel free to:
-- Utilize the https://knowledge.udacity.com/ forum to seek help on content-specific issues.
-- [Submit a support ticket](https://udacity.zendesk.com/hc/en-us/requests/new) along with the link to your forked repository. 
-- If you are an enterprise learner, please [Submit a support ticket here](https://udacityenterprise.zendesk.com/hc/en-us/requests/new?ticket_form_id=360000279131)
+
 
 ## Give your Application Auto-Deploy Superpowers
 
-In this project, you will prove your mastery of the following learning objectives:
+This project proves my mastery of the following learning objectives:
 
 - Explain the fundamentals and benefits of CI/CD to achieve, build, and deploy automation for cloud-based software products.
 - Utilize Deployment Strategies to design and build CI/CD pipelines that support Continuous Delivery processes.
 - Utilize a configuration management tool to accomplish deployment to cloud-based servers.
 - Surface critical server errors for diagnosis using centralized structured logging.
 
-![Diagram of CI/CD Pipeline we will be building.](udapeople.png)
+![Diagram of CI/CD Pipeline that was built.](udapeople.png)
 
 ### Instructions
 
@@ -24,7 +21,7 @@ In this project, you will prove your mastery of the following learning objective
 
 ### Project Submission
 
-For your submission, please submit the following:
+The following was submitted for the project
 
 - A text file named `urls.txt` including:
   1. Public Url to GitHub repository (not private) [URL01]
@@ -32,23 +29,38 @@ For your submission, please submit the following:
   1. Public URL for your CloudFront distribution (aka, your blue production front-end) [URL03]
   1. Public URLs to deployed application back-end in EC2 [URL04]
   1. Public URL to your Prometheus Server [URL05]
-- Your screenshots in JPG or PNG format, named using the screenshot number listed in the instructions. These screenshots should be included in your code repository in the root folder.
+
+- Screenshots in JPG or PNG format, named using the screenshot number listed in the instructions.
+
   1. Job failed because of compile errors. [SCREENSHOT01]
+  ![SCREENSHOT PICS](SCREENSHOTS/SCREENSHOT01.png)
   1. Job failed because of unit tests. [SCREENSHOT02]
+  ![SCREENSHOT PICS](SCREENSHOTS/SCREENSHOT02_TEST_BACKEND.png)
   1. Job that failed because of vulnerable packages. [SCREENSHOT03]
+  ![SCREENSHOT PICS](SCREENSHOTS/SCREENSHOT03_SCAN_BACKEND.png)
   1. An alert from one of your failed builds. [SCREENSHOT04]
+  ![SCREENSHOT PICS](SCREENSHOTS/SCREENSHOT04.png)
   1. Appropriate job failure for infrastructure creation. [SCREENSHOT05]
+  ![SCREENSHOT PICS](SCREENSHOTS/SCREENSHOT05.png)
   1. Appropriate job failure for the smoke test job. [SCREENSHOT06]
+  ![SCREENSHOT PICS](SCREENSHOTS/SCREENSHOT06.PNG)
   1. Successful rollback after a failed smoke test. [SCREENSHOT07]  
+  ![SCREENSHOT PICS](SCREENSHOTS/SCREENSHOT07.PNG)
   1. Successful promotion job. [SCREENSHOT08]
+  ![SCREENSHOT PICS](SCREENSHOTS/SCREENSHOT08.PNG)
   1. Successful cleanup job. [SCREENSHOT09]
+  ![SCREENSHOT PICS](SCREENSHOTS/SCREENSHOT09.PNG)
   1. Only deploy on pushed to `master` branch. [SCREENSHOT10]
+  ![SCREENSHOT PICS](SCREENSHOTS/SCREENSHOT10%20(2).PNG
   1. Provide a screenshot of a graph of your EC2 instance including available memory, available disk space, and CPU usage. [SCREENSHOT11]
+  ![SCREENSHOT PICS](SCREENSHOTS/SCREENSHOT11_CPU.PNG)
   1. Provide a screenshot of an alert that was sent by Prometheus. [SCREENSHOT12]
+  ![SCREENSHOT PICS](SCREENSHOTS/SCREENSHOT12.PNG)
 
-- Your presentation should be in PDF format named "presentation.pdf" and should be included in your code repository root folder. 
+- Presentation for Selling CI/CD to management
+- ![Presentation](presentation.pdf)
 
-Before you submit your project, please check your work against the project rubric. If you haven’t satisfied each criterion in the rubric, then revise your work so that you have met all the requirements. 
+
 
 ### Built With
 
